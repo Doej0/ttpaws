@@ -1,4 +1,9 @@
-const Hero = () => {
+import React from "react";
+import { Carousel } from "react-responsive-carousel";
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
+
+
+export default function Hero() {
 
     const photos = [
         { src: '/images/ttp10.jpg', width: 1, height: 1, alt: 'Photo 1' },
@@ -13,22 +18,42 @@ const Hero = () => {
     ];
 
 
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth < 640);
+        };
+
+        handleResize();
+        window.addEventListener('resize', handleResize);
+
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     return (
-        <section className=" mt-4 py-20 bg-gray-200">
+        <section className="mt-4 py-20 bg-gray-200">
             <div className="container mx-auto">
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                    {photos.map((photo, index) => (
-                        <div
-                            key={index}
-                            className={`bg-cover bg-center ${photo.width === 2 && photo.height === 2 ? 'col-span-2 row-span-2' : ''
-                                }`}
-                            style={{ backgroundImage: `url(${photo.src})`, paddingBottom: `${(photo.height / photo.width) * 100}%` }}
-                        ></div>
-                    ))}
-                </div>
+                {isMobile ? (
+                    <Carousel showThumbs={false} showStatus={false} infiniteLoop useKeyboardArrows autoPlay>
+                        {photos.map((photo, index) => (
+                            <div key={index} className="h-64">
+                                <img src={photo.src} alt={photo.alt} className="object-cover w-full h-full" />
+                            </div>
+                        ))}
+                    </Carousel>
+                ) : (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                        {photos.map((photo, index) => (
+                            <div
+                                key={index}
+                                className={`bg-cover bg-center ${photo.width === 2 && photo.height === 2 ? 'col-span-2 row-span-2' : ''}`}
+                                style={{ backgroundImage: `url(${photo.src})`, paddingBottom: `${(photo.height / photo.width) * 100}%` }}
+                            ></div>
+                        ))}
+                    </div>
+                )}
             </div>
         </section>
     );
-};
-
-export default Hero;
+}
