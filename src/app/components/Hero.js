@@ -1,10 +1,10 @@
-import React from "react";
+"use client";
+
+import React, { useState, useEffect } from "react";
 import { Carousel } from "react-responsive-carousel";
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
-
 export default function Hero() {
-
     const photos = [
         { src: '/images/ttp10.jpg', width: 1, height: 1, alt: 'Photo 1' },
         { src: '/images/ttp3.jpg', width: 1, height: 1, alt: 'Photo 2' },
@@ -13,10 +13,8 @@ export default function Hero() {
         { src: '/images/ttp6.jpg', width: 1, height: 1, alt: 'Photo 5' },
         { src: '/images/ttp5.jpg', width: 1, height: 1, alt: 'Photo 6' },
         { src: '/images/ttp4.jpg', width: 1, height: 1, alt: 'Photo 7' },
-        { src: '/images/ttp9.jpg', width: 1, height: 1, alt: 'Photo 7' }
-        // Add more photos as needed
+        { src: '/images/ttp9.jpg', width: 1, height: 1, alt: 'Photo 8' }
     ];
-
 
     const [isMobile, setIsMobile] = useState(false);
 
@@ -38,7 +36,7 @@ export default function Hero() {
                     <Carousel showThumbs={false} showStatus={false} infiniteLoop useKeyboardArrows autoPlay>
                         {photos.map((photo, index) => (
                             <div key={index} className="h-64">
-                                <img src={photo.src} alt={photo.alt} className="object-cover w-full h-full" />
+                                <img src={photo.src} alt={photo.alt} className="object-contain w-full h-full" />
                             </div>
                         ))}
                     </Carousel>
